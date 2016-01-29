@@ -1,6 +1,15 @@
-// PeskyUSF.h
+// kinesense.h
 //
-// Header file for Pesky ultimate sensor solution
+// Header file for kinesense library, class to manage interactions with 
+// Kris Winer's (Pesky Products) ultimate sensor fusion board
+
+#ifndef KINESENSE_H
+  #define KINESENSE_H
+  
+#include "Arduino.h"
+#include <i2c_t3.h>
+//#include <Wire.h>
+//typedef i2c_t3 TwoWire;
 
 // BMP280 registers
 #define BMP280_TEMP_XLSB  0xFC
@@ -306,3 +315,21 @@ enum SBy {
   t_2000ms,
   t_4000ms,
 };
+
+
+class Kinesense {
+	
+	public:
+	Kinesense(void);
+	float uint32_reg_to_float (uint8_t *buf);
+	void  float_to_bytes (float param_val, uint8_t *buf);
+	void  EM7180_set_gyro_FS (uint16_t gyro_fs);
+	
+	// I2C read/write functions for the MPU9250 and AK8963 sensors
+	void writeByte(uint8_t address, uint8_t subAddress, uint8_t data);
+	uint8_t readByte(uint8_t address, uint8_t subAddress);
+	void readBytes(uint8_t address, uint8_t subAddress, uint8_t count, uint8_t * dest);
+		
+	};
+	
+	#endif
